@@ -63,3 +63,4 @@ Route::post('/appointments', [AppointmentController::class, 'store'])->name('app
 
 Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
 Route::put('/appointments/{id}', [AppointmentController::class, 'update'])->name('appointments.update');
+Route::post('/appointments/consult', [AppointmentController::class, 'consult'])->name('appointments.consult');

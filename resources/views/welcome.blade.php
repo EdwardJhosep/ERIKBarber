@@ -20,14 +20,15 @@
         background-color: rgba(34, 34, 34, 0.9);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
-    .navbar-brand {
-        font-weight: bold;
-        color: #ffcc00; /* Cambiar a un color destacado */
-        font-size: 1.8rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        transition: color 0.3s;
-    }
+.navbar-brand {
+    font-weight: bold;
+    color: #ffcc00; /* Cambiar a un color destacado */
+    font-size: 1.2rem; /* Cambiar este valor para ajustar el tamaño de la fuente */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s;
+}
+
     .navbar-nav .nav-link {
         color: #f8f9fa;
         padding: 10px 20px;
@@ -97,6 +98,11 @@
             background-color: #343a40;
             color: white;
         }
+        .card-img-top {
+    height: 200px; /* Ajusta la altura según sea necesario */
+    object-fit: cover; /* Asegura que la imagen cubra todo el espacio sin distorsionarse */
+}
+
     </style>
 </head>
 <body>
@@ -135,7 +141,7 @@
     <header class="hero">
         <h1 class="display-4">Bienvenido a ERIK Barber-Studio</h1>
         <p class="lead">Tu estilo, nuestra pasión</p>
-        <a href="#" class="btn btn-lg">Reserva tu cita</a>
+        <a href="#" class="btn btn-lg"></a>
     </header>
 
     <div class="container mt-5 pt-5">
@@ -144,7 +150,7 @@
             <p class="text-center">Ofrecemos una variedad de servicios para satisfacer todas tus necesidades de estilo.</p>
             <div class="row">
                 <div class="col-md-4 mb-4">
-                    <div class="card">
+                    <div class="card h-100"> <!-- Añadir h-100 aquí -->
                         <img src="/imagenes/cortecabello.jpg" class="card-img-top" alt="Corte de cabello">
                         <div class="card-body">
                             <h5 class="card-title">Corte de Cabello</h5>
@@ -154,7 +160,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
-                    <div class="card">
+                    <div class="card h-100">
                         <img src="/imagenes/afeitado.jpg" class="card-img-top" alt="Afeitado tradicional">
                         <div class="card-body">
                             <h5 class="card-title">Afeitado Tradicional</h5>
@@ -164,7 +170,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
-                    <div class="card">
+                    <div class="card h-100">
                         <img src="/imagenes/tratamientocapilar.jpg" class="card-img-top" alt="Tratamientos capilares">
                         <div class="card-body">
                             <h5 class="card-title">Tratamientos Capilares</h5>
@@ -174,7 +180,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
-                    <div class="card">
+                    <div class="card h-100">
                         <img src="/imagenes/cuidatuimagen.jpg" class="card-img-top" alt="Cuida tu imagen">
                         <div class="card-body">
                             <h5 class="card-title">Cuida tu Imagen</h5>
@@ -184,7 +190,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
-                    <div class="card">
+                    <div class="card h-100">
                         <img src="/imagenes/servicio_domicilio.jpg" class="card-img-top" alt="Servicio a domicilio">
                         <div class="card-body">
                             <h5 class="card-title">Servicio a Domicilio</h5>
@@ -194,16 +200,17 @@
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="imagenes/coloracioncabello.jpg" class="card-img-top" alt="Servicio a domicilio">
+                    <div class="card h-100">
+                        <img src="imagenes/coloracioncabello.jpg" class="card-img-top" alt="Servicio de decoloración">
                         <div class="card-body">
-                            <h5 class="card-title">Servico de Decoloracion</h5>
-                            <p class="card-text">Disfruta de nuestros servicios de decoloracion con diseño modernos y actuales.</p>
+                            <h5 class="card-title">Servicio de Decoloración</h5>
+                            <p class="card-text">Disfruta de nuestros servicios de decoloración con diseños modernos y actuales.</p>
                             <a href="#" class="btn btn-primary">Más información</a>
                         </div>
                     </div>
                 </div>
             </div>
+            
         </section>
         
         <section class="my-5 bg-light py-5">
@@ -229,17 +236,18 @@
             </div>
         </section>
     </div>
+<footer class="footer text-center">
+    <div class="container">
+        <p>© 2024 ERIK Barber-Studio. Todos los derechos reservados.</p>
+        <p>
+            <a href="https://www.facebook.com/erikbarberstudio" class="text-white"><i class="fab fa-facebook"></i> Facebook</a> | 
+            <a href="#" class="text-white"><i class="fab fa-instagram"></i> Instagram</a>
+        </p>
+        <p>Dirección: Av. Girasoles 848, Amarilis 10003 | Teléfono: <a href="https://wa.me/967463961" class="text-white">967463961</a></p>
+        <p>Desarrollado por Edward JR | Contacto: <a href="https://wa.me/921540347" class="text-white">921540347</a></p>
+    </div>
+</footer>
 
-    <footer class="text-center py-4 mt-5">
-        <div class="container">
-            <p>© 2024 ERIK Barber-Studio. Todos los derechos reservados.</p>
-            <p>
-                <a href="https://www.facebook.com/erikbarberstudio" class="text-white"><i class="fab fa-facebook"></i> Facebook</a> | 
-                <a href="#" class="text-white"><i class="fab fa-instagram"></i> Instagram</a>
-            </p>
-            <p>Dirección: Av. Girasoles 848, Amarilis 10003 | Teléfono: (123) 456-7890</p>
-        </div>
-    </footer>
     
 
 

@@ -96,6 +96,20 @@ class AppointmentController extends Controller
     }
     
     
+    public function consult(Request $request)
+    {
+        $dni = $request->input('dni');
     
+        // Realiza tu lógica para obtener la cita aquí
+        $appointments = Appointment::where('dni', $dni)->get();
+    
+        // Obtén los servicios
+        $services = Service::all(); // Asegúrate de que el modelo Service esté correctamente importado
+    
+        return view('servicios', compact('services', 'appointments'));
+    }
+    
+    
+
  
 }
