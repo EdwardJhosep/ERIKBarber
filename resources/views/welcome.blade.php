@@ -150,7 +150,123 @@
                 <i class="fab fa-instagram"></i> Instagram
             </a>
         </div>
-
+        <div class="form-container">
+            <h1>Consultar Citas</h1>
+            <form action="{{ route('crearCitasEnBlanco') }}" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <label for="fecha" class="form-label">Fecha:</label>
+                    <input type="date" id="fecha" name="fecha" class="form-control" required
+                        min="{{ date('Y-m-d') }}"
+                        max="{{ date('Y-m-d', strtotime('+7 days')) }}">
+                    <small class="form-text text-muted">Verifica las citas disponibles.</small> <!-- Mensaje adicional -->
+                </div>
+                <button type="submit" class="btn btn-success w-100">Crear Cita</button>
+            </form>
+        <br><br>
+            @if(isset($citas))
+            <div class="table-container">
+                <h2 class="text-center">Citas para el {{ $fecha }}</h2>
+                <br><br>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-success">
+                            <tr>
+                                <th scope="col">Hora</th>
+                                <th scope="col">Teléfono</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($citas as $cita)
+                            <tr>
+                                <td>{{ $cita->appointment_time }}</td>
+                                <td>{{ $cita->phone_number ?: 'No asignado' }}</td>
+                                <td>{{ $cita->status }}</td>
+                                <td>
+                                    @if(strtolower($cita->status) === 'confirmado') <!-- Si el estado es 'confirmado', mostrar el texto -->
+                                        <span class="text-danger">Hora ocupada</span>
+                                    @else
+                                        @if(strtolower($cita->status) !== 'pendiente') <!-- Si el estado no es 'pendiente', mostrar el botón -->
+                                            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#reservarModal" data-id="{{ $cita->id }}">Reservar</button>
+                                        @endif
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @endif
+        </div>
+        
+    
+        <!-- Modal para Reservar Cita -->
+        <div class="modal fade" id="reservarModal" tabindex="-1" aria-labelledby="reservarModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="reservarModalLabel">Reservar Cita</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="reservarForm" action="{{ route('actualizarCita') }}" method="POST" enctype="multipart/form-data" onsubmit="return confirmReservation()">
+                            @csrf
+                            <input type="hidden" id="cita_id" name="cita_id">
+                            <div class="mb-3">
+                                <label for="telefono" class="form-label">Número de Teléfono:</label>
+                                <input type="text" id="telefono" name="phone_number" class="form-control" required>
+                            </div>
+                            <h1>La cita se reserva con 2 soles de adelanto.</h1>
+                            <div class="mb-3">
+                                <label for="fotopago" class="form-label">Foto de Pago:</label>
+                                <input type="file" id="fotopago" name="fotopagocita" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="estado" class="form-label">Estado:</label>
+                                <input type="text" id="estado" name="estado" class="form-control" value="pendiente" readonly>
+                            </div>
+                            <div class="mb-3 text-center">
+                                <img src="/imagenes/yape.jpg" alt="QR Yape" class="img-fluid mb-2" style="max-width: 100%; height: auto;">
+                            </div>
+                            <button type="submit" class="btn btn-success">Reservar Cita</button>
+                        </form>
+                    </div>
+                    
+                    <script>
+                        function confirmReservation() {
+                            return confirm("¿Está seguro de que desea reservar esta cita?"); // Muestra el cuadro de confirmación
+                        }
+                    </script>
+                    
+                </div>
+            </div>
+        </div>
+    
+        <!-- jQuery (Opcional) -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <!-- Popper.js (Opcional) -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <!-- Bootstrap JS (4.5.2) -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                // Establecer la fecha actual como valor del campo de fecha
+                var today = new Date().toISOString().split('T')[0];
+                document.getElementById("fecha").value = today;
+    
+                $('#reservarModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget) // Botón que activó el modal
+                    var citaId = button.data('id') // Extraer información de data-* atributos
+                    var modal = $(this)
+                    modal.find('#cita_id').val(citaId) // Establecer el ID de la cita en el campo oculto
+                });
+            });
+        </script>
         <section class="my-5">
             <h2 class="text-center">Nuestros Servicios</h2>
             <p class="text-center">Ofrecemos una variedad de servicios para satisfacer todas tus necesidades de estilo.</p>

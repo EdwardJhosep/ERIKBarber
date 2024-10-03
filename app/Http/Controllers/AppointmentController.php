@@ -8,114 +8,82 @@ use Carbon\Carbon;
 
 class AppointmentController extends Controller
 {
-    public function index()
-    {
-        $appointments = Appointment::where('appointment_date', Carbon::today())->get(); // Obtiene citas para hoy
-        return view('appointments', compact('appointments')); // Pasa las citas a la vista
-    }
 
-    public function createBlankAppointments()
-    {
-        // Establece la fecha de inicio (hoy)
-        $startDate = Carbon::today();
-        $datesToCheck = [$startDate, $startDate->copy()->addDay()]; // Hoy y mañana
-
-        // Verifica si ya existen citas para los días a crear
-        $appointmentsExist = false;
-
-        foreach ($datesToCheck as $date) {
-            // Comprueba si ya existen citas para esa fecha
-            if (Appointment::where('appointment_date', $date)->exists()) {
-                $appointmentsExist = true;
-                break; // Si existe al menos una cita, salimos del bucle
-            }
-        }
-
-        // Si no hay citas existentes, procede a crear las citas en blanco
-        if (!$appointmentsExist) {
-            // Crea citas en blanco para hoy y mañana
-            for ($i = 0; $i < 2; $i++) { // Solo dos días: hoy y mañana
-                $date = $datesToCheck[$i]; // Calcula la fecha para hoy y mañana
-                
-                for ($hour = 9; $hour < 21; $hour++) { // De 9 AM a 9 PM
-                    // Crea dos citas en blanco a la misma hora
-                    $appointmentTime = Carbon::createFromTime($hour, 0, 0); // Ambas citas a la misma hora
-
-                    // Verifica cuántas citas ya existen para esa fecha y hora
-                    $exists = Appointment::where('appointment_date', $date)
-                        ->where('appointment_time', $appointmentTime->toTimeString())
-                        ->count(); // Contamos las citas que existen en esa fecha y hora
-                    
-                    // Crea las citas solo si hay menos de 2 citas
-                    if ($exists < 2) { // Verifica si hay menos de 2 citas para esa hora
-                        // Crea la primera cita
-                        Appointment::create([
-                            'phone_number' => '', // Dejar vacío
-                            'appointment_date' => $date,
-                            'appointment_time' => $appointmentTime->toTimeString(),
-                            'appointment_type' => '', // Dejar vacío
-                            'status' => 'pending', // Estado inicial
-                            'fotopagocita' => null, // Dejar vacío
-                        ]);
-
-                        // Crea la segunda cita (la misma hora)
-                        Appointment::create([
-                            'phone_number' => '', // Dejar vacío
-                            'appointment_date' => $date,
-                            'appointment_time' => $appointmentTime->toTimeString(),
-                            'appointment_type' => '', // Dejar vacío
-                            'status' => 'pending', // Estado inicial
-                            'fotopagocita' => null, // Dejar vacío
-                        ]);
-                    }
-                }
-            }
-
-            return redirect()->route('appointments.index')->with('success', 'Citas en blanco creadas exitosamente.');
-        } else {
-            return redirect()->route('appointments.index')->with('info', 'Ya existen citas para hoy o mañana. No se crearon nuevas citas en blanco.');
-        }
-    }
-
-    public function nextDay()
-    {
-        // Obtiene la fecha actual y le suma un día
-        $nextDay = Carbon::today()->addDay();
-
-        // Obtiene las citas para el día siguiente
-        $appointments = Appointment::where('appointment_date', $nextDay)->get();
-
-        // Pasa las citas del día siguiente a la vista
-        return view('appointments', compact('appointments'));
-    }
-
-    // Método para mostrar el formulario de edición
-    public function edit($id)
-    {
-        $appointment = Appointment::findOrFail($id); // Encuentra la cita por ID
-        return view('edit_appointment', compact('appointment')); // Pasa la cita a la vista
-    }
-
-    // Método para actualizar la cita
-    public function update(Request $request, $id)
+    public function crearCitasEnBlanco(Request $request)
     {
         $request->validate([
-            'phone_number' => 'required|string|max:15',
-            'fotopagocita' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'fecha' => 'required|date', // Validar que se recibe una fecha válida
         ]);
 
-        $appointment = Appointment::findOrFail($id); // Encuentra la cita por ID
-        $appointment->phone_number = $request->input('phone_number'); // Actualiza el número de teléfono
+        $fechaSeleccionada = $request->input('fecha'); // Recibe la fecha del formulario
+        $fecha = Carbon::parse($fechaSeleccionada);
 
-        // Maneja la carga de la foto de pago
-        if ($request->hasFile('fotopagocita')) {
-            $path = $request->file('fotopagocita')->store('payment_photos', 'public');
-            $appointment->fotopagocita = $path; // Actualiza la foto de pago
+        // Hora de inicio y fin
+        $horaInicio = 9; // 9 AM
+        $horaFin = 21; // 9 PM
+
+        // Crear citas en blanco si no existen
+        for ($hora = $horaInicio; $hora < $horaFin; $hora++) {
+            for ($i = 1; $i <= 2; $i++) {
+                $existeCita = Appointment::where('appointment_date', $fecha->toDateString())
+                    ->where('appointment_time', "{$hora}:00:00")
+                    ->count();
+
+                if ($existeCita < 2) { 
+                    Appointment::create([
+                        'phone_number' => '',
+                        'appointment_date' => $fecha->toDateString(),
+                        'appointment_time' => "{$hora}:00:00",
+                        'appointment_type' => '',
+                        'status' => 'basia',
+                        'fotopagocita' => null,
+                    ]);
+                }
+            }
         }
 
-        $appointment->status = 'pendiente'; // Cambia el estado a 'pendiente'
-        $appointment->save(); // Guarda los cambios
+        // Obtener todas las citas para la fecha seleccionada
+        $citas = Appointment::where('appointment_date', $fecha->toDateString())->get();
 
-        return redirect()->route('appointments.index')->with('success', 'Cita actualizada exitosamente.');
+        // Devolver la vista con las citas
+        return view('welcome', ['citas' => $citas, 'fecha' => $fechaSeleccionada]);
     }
+
+public function actualizarCita(Request $request)
+{
+    // Validar la entrada
+    $request->validate([
+        'cita_id' => 'required|integer|exists:appointments,id',
+        'phone_number' => 'nullable|string|max:255',
+        'fotopagocita' => 'nullable|image|max:2048', // Ajusta el tamaño máximo según sea necesario
+    ]);
+
+    // Buscar la cita por ID
+    $cita = Appointment::find($request->input('cita_id'));
+
+    // Actualizar los campos de la cita
+    if ($request->filled('phone_number')) {
+        $cita->phone_number = $request->input('phone_number');
+    }
+
+    // Manejar la carga de la imagen de pago
+    if ($request->hasFile('fotopagocita')) {
+        // Almacenar la nueva imagen en la carpeta public/pagos
+        $ruta = $request->file('fotopagocita')->store('pagos', 'public'); // Almacena la imagen en public/pagos
+        $cita->fotopagocita = $ruta; // Guarda la ruta relativa en la base de datos
+    }
+
+    // Cambiar el estado a "pendiente"
+    $cita->status = 'pendiente';
+
+    // Guardar los cambios
+    $cita->save();
+
+    // Crear citas en blanco para la fecha de la cita actualizada
+    $this->crearCitasEnBlanco(new Request(['fecha' => $cita->appointment_date]));
+
+    // Redirigir de nuevo a la vista de citas con un mensaje de éxito
+    return redirect()->route('welcome')->with('success', 'Cita actualizada con éxito.');
+}
+       
 }

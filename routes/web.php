@@ -35,10 +35,11 @@ Route::put('/services/{id}', [ServiceController::class, 'update'])->name('servic
 Route::delete('/services/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
 
 
+// Definición de rutas
+Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments');
+Route::post('/crear-citas-en-blanco', [AppointmentController::class, 'crearCitasEnBlanco'])->name('crearCitasEnBlanco');
+Route::post('/editar-cita', [AppointmentController::class, 'actualizarCita'])->name('actualizarCita');
+use App\Http\Controllers\CitaController;
 
-
-Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
-Route::post('/appointments/create-blank', [AppointmentController::class, 'createBlankAppointments'])->name('appointments.create.blank');
-Route::get('/appointments/next-day', [AppointmentController::class, 'nextDay'])->name('appointments.next.day');
-Route::get('/appointments/edit/{id}', [AppointmentController::class, 'edit'])->name('appointments.edit');
-Route::put('/appointments/update/{id}', [AppointmentController::class, 'update'])->name('appointments.update');
+Route::get('/appointments', [CitaController::class, 'index'])->name('appointments');
+Route::post('/appointments/confirm/{id}', [CitaController::class, 'confirm'])->name('appointments.confirm');
