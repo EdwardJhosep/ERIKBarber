@@ -12,7 +12,6 @@ Route::get('/', [MenuController::class, 'index'])->name('welcome');
 
 Route::get('/servicios', [MenuController::class, 'servicios'])->name('servicios');
 Route::get('/acerca', [MenuController::class, 'acerca'])->name('acerca');
-Route::get('/contacto', [MenuController::class, 'contacto'])->name('contacto');
 
 // Rutas para el inicio de sesión
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

@@ -13,48 +13,47 @@
             background-color: #f8f9fa;
         }
         .navbar {
-        background-color: rgba(0, 0, 0, 0.6); /* Fondo semitransparente */
-        transition: background-color 0.5s ease;
-    }
-    .navbar.scrolled {
-        background-color: rgba(34, 34, 34, 0.9);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-.navbar-brand {
-    font-weight: bold;
-    color: #ffcc00; /* Cambiar a un color destacado */
-    font-size: 1.2rem; /* Cambiar este valor para ajustar el tamaño de la fuente */
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: color 0.3s;
-}
-
-    .navbar-nav .nav-link {
-        color: #f8f9fa;
-        padding: 10px 20px;
-        font-size: 1.1rem;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        transition: color 0.3s, background-color 0.3s;
-        border-radius: 5px;
-        position: relative;
-    }
-    .navbar-nav .nav-link:hover {
-        background-color: #ffcc00;
-        color: #343a40;
-    }
-    .navbar-toggler {
-        border: none;
-        background-color: #ffcc00;
-        border-radius: 50%;
-        outline: none;
-        padding: 8px;
-    }
-    .navbar-toggler:focus {
-        box-shadow: none;
-    }
+            background-color: rgba(0, 0, 0, 0.6); /* Fondo semitransparente */
+            transition: background-color 0.5s ease;
+        }
+        .navbar.scrolled {
+            background-color: rgba(34, 34, 34, 0.9);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: #ffcc00; /* Color destacado */
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+        .navbar-nav .nav-link {
+            color: #f8f9fa;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: color 0.3s, background-color 0.3s;
+            border-radius: 5px;
+            position: relative;
+        }
+        .navbar-nav .nav-link:hover {
+            background-color: #ffcc00;
+            color: #343a40;
+        }
+        .navbar-toggler {
+            border: none;
+            background-color: #ffcc00;
+            border-radius: 50%;
+            outline: none;
+            padding: 8px;
+        }
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
         .hero {
-            background-image: url('imagenes/fondo.jpg');
+            background-image: url('imagenes/fondo2.jpg');
             background-size: cover;
             background-position: center;
             color: rgb(255, 255, 255);
@@ -99,10 +98,25 @@
             color: white;
         }
         .card-img-top {
-    height: 200px; /* Ajusta la altura según sea necesario */
-    object-fit: cover; /* Asegura que la imagen cubra todo el espacio sin distorsionarse */
-}
+            height: 200px; /* Ajusta la altura según sea necesario */
+            object-fit: cover; /* Asegura que la imagen cubra todo el espacio sin distorsionarse */
+        }
+        /* Estilos para el texto de bienvenida */
+        .welcome-text {
+            font-size: 3rem; /* Tamaño de fuente inicial */
+        }
 
+        @media (max-width: 768px) {
+            .welcome-text {
+                font-size: 2.5rem; /* Tamaño de fuente en pantallas más pequeñas */
+            }
+        }
+
+        @media (max-width: 576px) {
+            .welcome-text {
+                font-size: 2rem; /* Tamaño de fuente en móviles */
+            }
+        }
     </style>
 </head>
 <body>
@@ -127,9 +141,6 @@
                         <a class="nav-link" href="{{ route('acerca') }}">Acerca de</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('contacto') }}">Contacto</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('login') }}">Login</a>
                     </li>
                 </ul>
@@ -137,12 +148,20 @@
         </div>
     </nav>
 
-
     <header class="hero">
-        <h1 class="display-4">Bienvenido a ERIK Barber-Studio</h1>
+        <h3 class="welcome-text">Bienvenido a ERIK Barber-Studio</h3>
         <p class="lead">Tu estilo, nuestra pasión</p>
-        <a href="#" class="btn btn-lg"></a>
     </header>
+
+    <div class="container mt-5 pt-5">
+        <div class="text-center my-4">
+            <a href="https://wa.me/967463961" target="_blank" class="btn btn-success mr-2">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+            <a href="https://www.instagram.com/suarez_barberstudio?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="btn btn-danger">
+                <i class="fab fa-instagram"></i> Instagram
+            </a>
+        </div>
 
     <div class="container mt-5 pt-5">
         <section class="my-5">
@@ -151,108 +170,93 @@
             <div class="row">
                 <div class="col-md-4 mb-4">
                     <div class="card h-100"> <!-- Añadir h-100 aquí -->
+                        <img src="/imagenes/cortecabello.jpg" class="card-img-top" alt="Asesoría de corte">
+                        <div class="card-body">
+                            <h5 class="card-title">Asesoría de Corte</h5>
+                            <p class="card-text">Cortes personalizados con asesoría de expertos para realzar tu estilo.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
                         <img src="/imagenes/cortecabello.jpg" class="card-img-top" alt="Corte de cabello">
                         <div class="card-body">
                             <h5 class="card-title">Corte de Cabello</h5>
                             <p class="card-text">Cortes modernos y clásicos adaptados a tu estilo personal.</p>
-                            <a href="#" class="btn btn-primary">Más información</a>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
-                        <img src="/imagenes/afeitado.jpg" class="card-img-top" alt="Afeitado tradicional">
+                        <img src="/imagenes/afeitado.jpg" class="card-img-top" alt="Ritual de barba">
                         <div class="card-body">
-                            <h5 class="card-title">Afeitado Tradicional</h5>
-                            <p class="card-text">Disfruta de un afeitado suave y cómodo con productos de alta calidad.</p>
-                            <a href="#" class="btn btn-primary">Más información</a>
+                            <h5 class="card-title">Ritual de Barba</h5>
+                            <p class="card-text">Afeitado y arreglo de barba con productos de alta calidad.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
-                        <img src="/imagenes/tratamientocapilar.jpg" class="card-img-top" alt="Tratamientos capilares">
+                        <img src="/imagenes/limpiezafacial.jpg" class="card-img-top" alt="Limpieza facial">
                         <div class="card-body">
-                            <h5 class="card-title">Tratamientos Capilares</h5>
-                            <p class="card-text">Cuidado intensivo para mantener tu cabello saludable y brillante.</p>
-                            <a href="#" class="btn btn-primary">Más información</a>
+                            <h5 class="card-title">Limpieza Facial</h5>
+                            <p class="card-text">Cuidado de la piel para mantener un rostro fresco y limpio.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
-                        <img src="/imagenes/cuidatuimagen.jpg" class="card-img-top" alt="Cuida tu imagen">
-                        <div class="card-body">
-                            <h5 class="card-title">Cuida tu Imagen</h5>
-                            <p class="card-text">Te ofrecemos un servicio VIP para que siempre luzcas impecable. La imagen es clave.</p>
-                            <a href="#" class="btn btn-primary">Más información</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <img src="/imagenes/servicio_domicilio.jpg" class="card-img-top" alt="Servicio a domicilio">
-                        <div class="card-body">
-                            <h5 class="card-title">Servicio a Domicilio</h5>
-                            <p class="card-text">Disfruta de nuestros servicios en la comodidad de tu hogar. Llevamos el estilo hasta ti.</p>
-                            <a href="#" class="btn btn-primary">Más información</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <img src="imagenes/coloracioncabello.jpg" class="card-img-top" alt="Servicio de decoloración">
+                        <img src="/imagenes/decoloracion.jpg" class="card-img-top" alt="Servicio de decoloración">
                         <div class="card-body">
                             <h5 class="card-title">Servicio de Decoloración</h5>
-                            <p class="card-text">Disfruta de nuestros servicios de decoloración con diseños modernos y actuales.</p>
-                            <a href="#" class="btn btn-primary">Más información</a>
+                            <p class="card-text">Decoloración y tintes personalizados para un estilo único.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="/imagenes/ondulacion.jpg" class="card-img-top" alt="Servicio de ondulación">
+                        <div class="card-body">
+                            <h5 class="card-title">Servicio de Ondulación</h5>
+                            <p class="card-text">Ondulación del cabello con técnicas avanzadas.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="/imagenes/servicioadomicilio.jpg" class="card-img-top" alt="Servicio a Domicilio">
+                        <div class="card-body">
+                            <h5 class="card-title">Servicio a Domicilio</h5>
+                            <p class="card-text">Disfruta de nuestros servicios desde la comodidad de tu hogar.</p>
                         </div>
                     </div>
                 </div>
             </div>
-            
-        </section>
-        
-        <section class="my-5 bg-light py-5">
-            <h2 class="text-center">Acerca de Nosotros</h2>
-            <p class="text-center">En ERIK Barber-Studio, contamos con un equipo de barberos profesionales y apasionados por el estilo. Nuestra misión es ofrecerte una experiencia única y personalizada en cada visita.</p>
-        </section>
-
-        <section class="my-5">
-            <h2 class="text-center">Testimonios</h2>
-            <div class="row">
-                <div class="col-md-6">
-                    <blockquote class="blockquote text-center">
-                        <p class="mb-0">"El mejor lugar para un corte de cabello. Siempre salgo contento y renovado!"</p>
-                        <footer class="blockquote-footer">Juan Pérez</footer>
-                    </blockquote>
-                </div>
-                <div class="col-md-6">
-                    <blockquote class="blockquote text-center">
-                        <p class="mb-0">"¡Excelente atención y resultados impecables! Mi barbería de confianza."</p>
-                        <footer class="blockquote-footer">Carlos Sánchez</footer>
-                    </blockquote>
-                </div>
-            </div>
         </section>
     </div>
-<footer class="footer text-center">
-    <div class="container">
-        <p>© 2024 ERIK Barber-Studio. Todos los derechos reservados.</p>
-        <p>
-            <a href="https://www.facebook.com/erikbarberstudio" class="text-white"><i class="fab fa-facebook"></i> Facebook</a> | 
-            <a href="#" class="text-white"><i class="fab fa-instagram"></i> Instagram</a>
-        </p>
-        <p>Dirección: Av. Girasoles 848, Amarilis 10003 | Teléfono: <a href="https://wa.me/967463961" class="text-white">967463961</a></p>
-        <p>Desarrollado por Edward JR | Contacto: <a href="https://wa.me/921540347" class="text-white">921540347</a></p>
     </div>
-</footer>
+    <footer class="footer text-center">
+        <div class="container">
+            <p>© 2024 ERIK Barber-Studio. Todos los derechos reservados.</p>
+            <p>
+                <a href="https://www.facebook.com/erikbarberstudio" class="text-white"><i class="fab fa-facebook"></i> Facebook</a> | 
+                <a href="#" class="text-white"><i class="fab fa-instagram"></i> Instagram</a>
+            </p>
+            <p>Dirección: Av. Girasoles 848, Amarilis 10003 | Teléfono: <a href="https://wa.me/967463961" class="text-white">967463961</a></p>
+            <p>Desarrollado por Edward JR | Contacto: <a href="https://wa.me/921540347" class="text-white">921540347</a></p>
+        </div>
+    </footer>
 
-    
-
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 50) {
+                $('.navbar').addClass('scrolled');
+            } else {
+                $('.navbar').removeClass('scrolled');
+            }
+        });
+    </script>
 </body>
-</html>
+</html> 

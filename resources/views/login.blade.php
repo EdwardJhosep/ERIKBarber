@@ -96,9 +96,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('acerca') }}">Acerca de</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('contacto') }}">Contacto</a>
-                    </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="{{ route('login') }}">Login</a>
                     </li>

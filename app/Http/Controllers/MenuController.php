@@ -28,9 +28,5 @@ class MenuController extends Controller
         return view('acerca'); // Asegúrate de tener una vista llamada 'acerca.blade.php'
     }
 
-    // Método para mostrar la página de contacto
-    public function contacto()
-    {
-        return view('contacto'); // Asegúrate de tener una vista llamada 'contacto.blade.php'
-    }
+
 }
