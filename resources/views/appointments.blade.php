@@ -1,94 +1,93 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ver y Crear Citas</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Appointments</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css"> <!-- Bootstrap CSS -->
 </head>
 <body>
     <div class="container mt-5">
-        <h2>Crear Cita</h2>
-        
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
+        <h1 class="mb-4">Lista de Citas para {{ \Carbon\Carbon::today()->addDay()->format('d-m-Y') }}</h1>
 
-        <form action="{{ route('appointments.store') }}" method="POST" enctype="multipart/form-data">
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+        
+        <form action="{{ route('appointments.create.blank') }}" method="POST" class="mb-4">
             @csrf
-            <div class="form-group">
-                <label for="phone_number">Número de Celular:</label>
-                <input type="text" class="form-control" id="phone_number" name="phone_number" required>
-            </div>
-            <div class="form-group">
-                <label for="appointment_date">Fecha de la Cita:</label>
-                <input type="date" class="form-control" id="appointment_date" name="appointment_date" required>
-            </div>
-            <div class="form-group">
-                <label for="appointment_time">Hora de la Cita:</label>
-                <input type="time" class="form-control" id="appointment_time" name="appointment_time" required>
-            </div>
-            <div class="form-group">
-                <label for="appointment_type">Tipo de Cita:</label>
-                <input type="text" class="form-control" id="appointment_type" name="appointment_type" required>
-            </div>
-            <div class="form-group">
-                <label for="fotopagocita">Foto del Pago (opcional):</label>
-                <input type="file" class="form-control" id="fotopagocita" name="fotopagocita" accept="image/*">
-            </div>
-            <button type="submit" class="btn btn-primary">Crear Cita</button>
+            <button type="submit" class="btn btn-primary">Crear Citas en Blanco</button>
         </form>
 
-        <hr>
-
-        <h2 class="mt-5">Listado de Citas</h2>
-
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Número de Celular</th>
-                    <th>Fecha de la Cita</th>
-                    <th>Hora de la Cita</th>
-                    <th>Tipo de Cita</th>
-                    <th>Estado</th>
-                    <th>Foto de Pago</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($appointments as $appointment)
+        <form action="{{ route('appointments.next.day') }}" method="GET" class="mb-4">
+            <button type="submit" class="btn btn-secondary">Ver Siguiente Día</button>
+        </form>
+        
+        @if ($appointments->isEmpty())
+            <div class="alert alert-warning" role="alert">
+                No hay citas disponibles.
+            </div>
+        @else
+            <table class="table table-bordered">
+                <thead>
                     <tr>
-                        <td>{{ $appointment->id }}</td>
-                        <td>{{ $appointment->phone_number }}</td>
-                        <td>{{ \Carbon\Carbon::parse($appointment->appointment_date)->format('d/m/Y') }}</td>
-                        <td>{{ $appointment->appointment_time }}</td>
-                        <td>{{ $appointment->appointment_type }}</td>
-                        <td>{{ ucfirst($appointment->status) }}</td>
-                        <td>
-                            @if($appointment->fotopagocita)
-                                <a href="{{ asset('storage/' . $appointment->fotopagocita) }}" target="_blank">Ver Foto</a>
-                            @else
-                                Sin foto
-                            @endif
-                        </td>
-                        <td>
-                            <a href="#" class="btn btn-warning btn-sm">Editar</a>
-                            <form action="#" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                            </form>
-                        </td>
+                        <th>Día</th>
+                        <th>Hora de Cita</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($appointments as $appointment)
+                        <tr>
+                            <td>{{ \Carbon\Carbon::parse($appointment->appointment_date)->format('d-m-Y') }}</td>
+                            <td>{{ $appointment->appointment_time }}</td>
+                            <td>{{ $appointment->status }}</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $appointment->id }}">
+                                    Editar
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- Modal de Edición -->
+                        <div class="modal fade" id="editModal{{ $appointment->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $appointment->id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editModalLabel{{ $appointment->id }}">Editar Cita</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('appointments.update', $appointment->id) }}" method="POST" enctype="multipart/form-data">
+                                            @csrf
+                                            @method('PUT')
+                                            
+                                            <div class="mb-3">
+                                                <label for="phone_number" class="form-label">Número de Teléfono</label>
+                                                <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ $appointment->phone_number }}" required>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="fotopagocita" class="form-label">Foto de Pago</label>
+                                                <input type="file" class="form-control" id="fotopagocita" name="fotopagocita" accept="image/*">
+                                            </div>
+                                            
+                                            <button type="submit" class="btn btn-primary">Actualizar Cita</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script> <!-- Bootstrap JS -->
 </body>
 </html>

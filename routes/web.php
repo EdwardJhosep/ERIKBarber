@@ -34,5 +34,11 @@ Route::get('/services/{id}/edit', [ServiceController::class, 'edit'])->name('ser
 Route::put('/services/{id}', [ServiceController::class, 'update'])->name('services.update');
 Route::delete('/services/{id}', [ServiceController::class, 'destroy'])->name('services.destroy');
 
+
+
+
 Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments.index');
-Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
+Route::post('/appointments/create-blank', [AppointmentController::class, 'createBlankAppointments'])->name('appointments.create.blank');
+Route::get('/appointments/next-day', [AppointmentController::class, 'nextDay'])->name('appointments.next.day');
+Route::get('/appointments/edit/{id}', [AppointmentController::class, 'edit'])->name('appointments.edit');
+Route::put('/appointments/update/{id}', [AppointmentController::class, 'update'])->name('appointments.update');
