@@ -64,6 +64,58 @@
             padding: 100px 0;
             position: relative;
         }
+        /* Estilos para el modal de Reservar Cita */
+.modal-content {
+    border-radius: 10px; /* Bordes redondeados para el modal */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+}
+
+.modal-header {
+    background-color: #007bff; /* Color de fondo del encabezado */
+    color: white; /* Color del texto del encabezado */
+    border-top-left-radius: 10px; /* Bordes redondeados en la esquina superior izquierda */
+    border-top-right-radius: 10px; /* Bordes redondeados en la esquina superior derecha */
+}
+
+.modal-title {
+    font-weight: bold; /* Texto en negrita para el título */
+}
+
+.close {
+    color: white; /* Color de la cruz de cerrar */
+}
+
+.modal-body {
+    padding: 20px; /* Espaciado interno del cuerpo del modal */
+}
+
+.form-label {
+    font-weight: bold; /* Texto de la etiqueta en negrita */
+}
+
+.btn-success {
+    background-color: #28a745; /* Color verde */
+    border-color: #28a745; /* Color del borde */
+}
+
+.btn-success:hover {
+    background-color: #218838; /* Color de fondo más oscuro al pasar el mouse */
+    border-color: #1e7e34; /* Color del borde más oscuro al pasar el mouse */
+}
+
+.img-fluid {
+    border-radius: 10px; /* Bordes redondeados para la imagen */
+    border: 2px solid #007bff; /* Borde azul alrededor de la imagen */
+}
+
+/* Mensaje de instrucción */
+h1 {
+    font-size: 1.25rem; /* Tamaño de fuente del mensaje de reserva */
+    color: #343a40; /* Color del texto */
+    text-align: center; /* Centrar el texto */
+    margin: 15px 0; /* Espaciado vertical */
+}
+
         .hero:before {
             content: '';
             position: absolute;
@@ -151,7 +203,7 @@
     </nav>
 
     <header class="hero">
-        <h3 class="welcome-text">Bienvenido a ERIK Barber-Studio</h3>
+        <h3 class="welcome-text">BIENVENIDO A ERIK BARBER-STUDIO</h3>
         <p class="lead">Tu estilo, nuestra pasión</p>
     </header>
 
@@ -170,13 +222,13 @@
             <form action="{{ route('crearCitasEnBlanco') }}" method="POST">
                 @csrf
                 <div class="mb-3">
-                    <label for="fecha" class="form-label">Fecha:</label>
+                    <label for="fecha" class="form-label">Seleccione la fecha para su reserva:</label>
                     <input type="date" id="fecha" name="fecha" class="form-control" required
                         min="{{ date('Y-m-d') }}"
                         max="{{ date('Y-m-d', strtotime('+7 days')) }}">
                     <small class="form-text text-muted">Verifica las citas disponibles.</small> <!-- Mensaje adicional -->
                 </div>
-                <button type="submit" class="btn btn-success w-100">Consultar</button>
+                <button type="submit" class="btn btn-success w-100">CREAR CITA</button>
                 
                 @if(session('success'))
                 <div class="alert alert-success">
@@ -230,49 +282,51 @@
         </div>
         
     
-        <!-- Modal para Reservar Cita -->
-        <div class="modal fade" id="reservarModal" tabindex="-1" aria-labelledby="reservarModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="reservarModalLabel">Reservar Cita</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span>&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="reservarForm" action="{{ route('actualizarCita') }}" method="POST" enctype="multipart/form-data" onsubmit="return confirmReservation()">
-                            @csrf
-                            <input type="hidden" id="cita_id" name="cita_id">
-                            <div class="mb-3">
-                                <label for="telefono" class="form-label">Número de Teléfono:</label>
-                                <input type="text" id="telefono" name="phone_number" class="form-control" required>
-                            </div>
-                            <h1>La cita se reserva con 2 soles de adelanto.</h1>
-                            <div class="mb-3">
-                                <label for="fotopago" class="form-label">Foto de Pago:</label>
-                                <input type="file" id="fotopago" name="fotopagocita" class="form-control" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="estado" class="form-label">Estado:</label>
-                                <input type="text" id="estado" name="estado" class="form-control" value="pendiente" readonly>
-                            </div>
-                            <div class="mb-3 text-center">
-                                <img src="/imagenes/yape.jpg" alt="QR Yape" class="img-fluid mb-2" style="max-width: 100%; height: auto;">
-                            </div>
-                            <button type="submit" class="btn btn-success">Reservar Cita</button>
-                        </form>
-                    </div>
-                    
-                    <script>
-                        function confirmReservation() {
-                            return confirm("¿Está seguro de que desea reservar esta cita?"); // Muestra el cuadro de confirmación
-                        }
-                    </script>
-                    
-                </div>
+       <!-- Modal para Reservar Cita -->
+<div class="modal fade" id="reservarModal" tabindex="-1" aria-labelledby="reservarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reservarModalLabel">Reservar Cita</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span>&times;</span>
+                </button>
             </div>
+            <div class="modal-body">
+                <form id="reservarForm" action="{{ route('actualizarCita') }}" method="POST" enctype="multipart/form-data" onsubmit="return confirmReservation()">
+                    @csrf
+                    <input type="hidden" id="cita_id" name="cita_id">
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Número de Teléfono:</label>
+                        <input type="text" id="telefono" name="phone_number" class="form-control" required>
+                    </div>
+                    <h1>La cita se reserva con 2 soles de adelanto.</h1>
+                    <div class="mb-3">
+                        <label for="fotopago" class="form-label">Foto de Pago:</label>
+                        <!-- Permitir solo imágenes (jpg, jpeg, png) -->
+                        <input type="file" id="fotopago" name="fotopagocita" class="form-control" accept="image/*" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="estado" class="form-label">Estado:</label>
+                        <input type="text" id="estado" name="estado" class="form-control" value="pendiente" readonly>
+                    </div>
+                    <div class="mb-3 text-center">
+                        <img src="/imagenes/yape.jpg" alt="QR Yape" class="img-fluid mb-2" style="max-width: 100%; height: auto;">
+                    </div>
+                    <button type="submit" class="btn btn-success">Reservar Cita</button>
+                </form>
+            </div>
+
+            <script>
+                function confirmReservation() {
+                    return confirm("¿Está seguro de que desea reservar esta cita?"); // Muestra el cuadro de confirmación
+                }
+            </script>
+
         </div>
+    </div>
+</div>
+
     
         <!-- jQuery (Opcional) -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

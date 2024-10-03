@@ -69,6 +69,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/appointments') }}"><i class="fas fa-calendar-check"></i> Ver Citas</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/confirmed-appointments') }}"><i class="fas fa-check-circle"></i> Ver Citas Confirmadas</a>
+                </li>
                 <li class="nav-item logout-container">
                     <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                         @csrf

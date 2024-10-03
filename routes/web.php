@@ -40,6 +40,7 @@ Route::get('/appointments', [AppointmentController::class, 'index'])->name('appo
 Route::post('/crear-citas-en-blanco', [AppointmentController::class, 'crearCitasEnBlanco'])->name('crearCitasEnBlanco');
 Route::post('/editar-cita', [AppointmentController::class, 'actualizarCita'])->name('actualizarCita');
 use App\Http\Controllers\CitaController;
-
+Route::post('/appointments/{id}/cancel', [CitaController::class, 'cancel'])->name('appointments.cancel');
 Route::get('/appointments', [CitaController::class, 'index'])->name('appointments');
 Route::post('/appointments/confirm/{id}', [CitaController::class, 'confirm'])->name('appointments.confirm');
+Route::get('/confirmed-appointments', [CitaController::class, 'showConfirmedAppointments'])->name('confirmed.appointments');

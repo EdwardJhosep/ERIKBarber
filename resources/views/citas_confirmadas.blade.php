@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ver citas</title>
+    <title>Citas Confirmadas</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
         .barber-photo {
-            width: 50px; /* Ancho de la foto */
-            height: 50px; /* Alto de la foto */
-            object-fit: cover; /* Ajustar la imagen sin deformarla */
-            border-radius: 50%; /* Hacer la imagen circular */
-            cursor: pointer; /* Cambia el cursor al pasar por encima */
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+            cursor: pointer;
         }
         .btn-custom {
             background-color: #007bff;
@@ -22,19 +22,18 @@
             background-color: #0056b3;
         }
         .btn-logout {
-            background-color: #dc3545; /* Color rojo para el botón de cerrar sesión */
+            background-color: #dc3545;
             color: white;
         }
         .btn-logout:hover {
-            background-color: #c82333; /* Color más oscuro al pasar el mouse */
+            background-color: #c82333;
         }
         .logout-container {
             display: inline-block;
             margin-left: 20px;
         }
-        /* Asegura que la tabla ocupe el 100% del contenedor */
         .table-responsive {
-            overflow-x: auto; /* Permite desplazamiento horizontal */
+            overflow-x: auto;
         }
     </style>
 </head>
@@ -53,11 +52,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('/add-barber') }}"><i class="fas fa-user-plus"></i> Agregar Barbero</a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="{{ url('/appointments') }}"><i class="fas fa-calendar-check"></i> Ver Citas</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/confirmed-appointments') }}"><i class="fas fa-check-circle"></i> Ver Citas Confirmadas</a>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url('/confirmed-appointments') }}"><i class="fas fa-calendar-check"></i> Citas Confirmadas</a>
             </li>
             <li class="nav-item logout-container">
                 <form action="{{ route('logout') }}" method="POST" style="display: inline;">
@@ -72,9 +71,13 @@
 </nav>
 
 <div class="container mt-4">
-    <h2 class="mb-4">Lista de Citas</h2>
-    <div class="table-responsive"> <!-- Contenedor responsivo -->
-        <table class="table table-striped table-bordered">
+    <h2 class="mb-4">Lista de Citas Confirmadas</h2>
+    
+    <!-- Campo de búsqueda -->
+    <input type="text" id="searchInput" class="form-control mb-4" placeholder="Buscar por número de celular, fecha o tipo de cita...">
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered" id="appointmentsTable">
             <thead class="thead-light">
                 <tr>
                     <th>Número de Celular</th>
@@ -83,11 +86,10 @@
                     <th>Tipo de Cita</th>
                     <th>Estado</th>
                     <th>Foto de Pago</th>
-                    <th>Acciones</th> <!-- Nueva columna para acciones -->
                 </tr>
             </thead>
             <tbody>
-                @foreach($appointments as $appointment)
+                @foreach($confirmedAppointments as $appointment)
                 <tr>
                     <td>{{ $appointment->phone_number }}</td>
                     <td>{{ $appointment->appointment_date }}</td>
@@ -101,17 +103,6 @@
                             Sin foto
                         @endif
                     </td>
-                    <td>
-                        <form action="{{ route('appointments.confirm', $appointment->id) }}" method="POST" style="display: inline;">
-                            @csrf
-                            <button type="submit" class="btn btn-custom">Confirmar Cita</button>
-                        </form>
-                        <form action="{{ route('appointments.cancel', $appointment->id) }}" method="POST" style="display: inline;">
-                            @csrf
-                            <button type="submit" class="btn btn-danger">Cancelar Cita</button>
-                        </form>
-                    </td>
-                    
                 </tr>
                 @endforeach
             </tbody>
@@ -144,6 +135,16 @@
     $(document).on('click', '.barber-photo', function() {
         var imgSrc = $(this).data('img');
         $('#modalImage').attr('src', imgSrc);
+    });
+
+    // Función para filtrar las citas
+    $(document).ready(function() {
+        $('#searchInput').on('keyup', function() {
+            var value = $(this).val().toLowerCase();
+            $('#appointmentsTable tbody tr').filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
     });
 </script>
 

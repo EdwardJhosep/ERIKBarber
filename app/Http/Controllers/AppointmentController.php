@@ -35,7 +35,7 @@ class AppointmentController extends Controller
                         'appointment_date' => $fecha->toDateString(),
                         'appointment_time' => "{$hora}:00:00",
                         'appointment_type' => '',
-                        'status' => 'basia',
+                        'status' => 'libre',
                         'fotopagocita' => null,
                     ]);
                 }
