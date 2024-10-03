@@ -49,41 +49,52 @@ class AppointmentController extends Controller
         return view('welcome', ['citas' => $citas, 'fecha' => $fechaSeleccionada]);
     }
 
-public function actualizarCita(Request $request)
-{
-    // Validar la entrada
-    $request->validate([
-        'cita_id' => 'required|integer|exists:appointments,id',
-        'phone_number' => 'nullable|string|max:255',
-        'fotopagocita' => 'nullable|image|max:2048', // Ajusta el tamaño máximo según sea necesario
-    ]);
-
-    // Buscar la cita por ID
-    $cita = Appointment::find($request->input('cita_id'));
-
-    // Actualizar los campos de la cita
-    if ($request->filled('phone_number')) {
-        $cita->phone_number = $request->input('phone_number');
-    }
-
-    // Manejar la carga de la imagen de pago
-    if ($request->hasFile('fotopagocita')) {
-        // Almacenar la nueva imagen en la carpeta public/pagos
-        $ruta = $request->file('fotopagocita')->store('pagos', 'public'); // Almacena la imagen en public/pagos
-        $cita->fotopagocita = $ruta; // Guarda la ruta relativa en la base de datos
-    }
-
-    // Cambiar el estado a "pendiente"
-    $cita->status = 'pendiente';
-
-    // Guardar los cambios
-    $cita->save();
-
-    // Crear citas en blanco para la fecha de la cita actualizada
-    $this->crearCitasEnBlanco(new Request(['fecha' => $cita->appointment_date]));
-
-    // Redirigir de nuevo a la vista de citas con un mensaje de éxito
-    return redirect()->route('welcome')->with('success', 'Cita actualizada con éxito.');
-}
-       
+    public function actualizarCita(Request $request)
+    {
+        // Validar la entrada
+        $request->validate([
+            'cita_id' => 'required|integer|exists:appointments,id',
+            'phone_number' => 'nullable|string|max:255',
+            'fotopagocita' => 'nullable|image|max:2048', // Ajusta el tamaño máximo según sea necesario
+        ]);
+    
+        // Buscar la cita por ID
+        $cita = Appointment::find($request->input('cita_id'));
+    
+        // Actualizar los campos de la cita
+        if ($request->filled('phone_number')) {
+            $cita->phone_number = $request->input('phone_number');
+        }
+    
+        // Manejar la carga de la imagen de pago
+        if ($request->hasFile('fotopagocita')) {
+            // Almacenar la nueva imagen en la carpeta public/pagos
+            $ruta = $request->file('fotopagocita')->store('pagos', 'public'); // Almacena la imagen en public/pagos
+            $cita->fotopagocita = $ruta; // Guarda la ruta relativa en la base de datos
+        }
+    
+        // Cambiar el estado a "pendiente"
+        $cita->status = 'pendiente';
+    
+        // Verificar si hay citas pendientes con el mismo número de teléfono
+        $existePendiente = Appointment::where('phone_number', $cita->phone_number)
+            ->where('status', 'pendiente')
+            ->exists();
+    
+        if ($existePendiente) {
+            // Si hay una cita pendiente, redirigir con un mensaje de error
+            return redirect()->route('welcome')->with('error', 'Tienes citas pendidntes para este numero.');
+        }
+    
+        // Si la cita anterior estaba confirmada, permitir la creación de nuevas citas en blanco
+        if ($cita->status === 'confirmado') {
+            $this->crearCitasEnBlanco(new Request(['fecha' => $cita->appointment_date]));
+        }
+    
+        // Guardar los cambios
+        $cita->save();
+    
+        // Redirigir de nuevo a la vista de citas con un mensaje de éxito
+        return redirect()->route('welcome')->with('success', 'Cita Creada con éxito.');
+    } 
 }

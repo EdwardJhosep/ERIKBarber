@@ -7,13 +7,16 @@
     <title>ERIK Barber-Studio</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+    <!-- Agrega Bootstrap en el <head> de tu archivo principal -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f8f9fa;
         }
         .navbar {
-            background-color: rgba(0, 0, 0, 0.6); /* Fondo semitransparente */
+            background-color: rgba(53, 53, 53, 0.6); /* Fondo semitransparente */
             transition: background-color 0.5s ease;
         }
         .navbar.scrolled {
@@ -68,7 +71,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.651);
             z-index: 1;
         }
         .hero h1 {
@@ -81,6 +84,16 @@
             font-size: 1.5rem;
             z-index: 2;
         }
+        .alert-success {
+    background-color: #d4edda; /* Color de fondo verde claro */
+    color: #155724; /* Color del texto verde oscuro */
+}
+
+.alert-danger {
+    background-color: #f8d7da; /* Color de fondo rojo claro */
+    color: #721c24; /* Color del texto rojo oscuro */
+}
+
         footer {
             background-color: #343a40;
             color: white;
@@ -91,6 +104,7 @@
         }
         /* Estilos para el texto de bienvenida */
         .welcome-text {
+            color: white;
             font-size: 3rem; /* Tamaño de fuente inicial */
         }
 
@@ -102,7 +116,7 @@
 
         @media (max-width: 576px) {
             .welcome-text {
-                font-size: 2rem; /* Tamaño de fuente en móviles */
+                font-size: 1rem; /* Tamaño de fuente en móviles */
             }
         }
     </style>
@@ -149,6 +163,7 @@
             <a href="https://www.instagram.com/suarez_barberstudio?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="btn btn-danger">
                 <i class="fab fa-instagram"></i> Instagram
             </a>
+
         </div>
         <div class="form-container">
             <h1>Consultar Citas</h1>
@@ -161,7 +176,19 @@
                         max="{{ date('Y-m-d', strtotime('+7 days')) }}">
                     <small class="form-text text-muted">Verifica las citas disponibles.</small> <!-- Mensaje adicional -->
                 </div>
-                <button type="submit" class="btn btn-success w-100">Crear Cita</button>
+                <button type="submit" class="btn btn-success w-100">Consultar</button>
+                
+                @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+            
             </form>
         <br><br>
             @if(isset($citas))
