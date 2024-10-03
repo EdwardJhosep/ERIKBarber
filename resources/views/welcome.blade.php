@@ -81,18 +81,6 @@
             font-size: 1.5rem;
             z-index: 2;
         }
-        .hero .btn {
-            background-color: #ffcc00;
-            color: #000;
-            border-radius: 20px;
-            padding: 10px 30px;
-            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-        }
-        .hero .btn:hover {
-            background-color: #ffd700;
-            transform: scale(1.05);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
         footer {
             background-color: #343a40;
             color: white;
@@ -163,13 +151,12 @@
             </a>
         </div>
 
-    <div class="container mt-5 pt-5">
         <section class="my-5">
             <h2 class="text-center">Nuestros Servicios</h2>
             <p class="text-center">Ofrecemos una variedad de servicios para satisfacer todas tus necesidades de estilo.</p>
             <div class="row">
                 <div class="col-md-4 mb-4">
-                    <div class="card h-100"> <!-- Añadir h-100 aquí -->
+                    <div class="card h-100">
                         <img src="/imagenes/cortecabello.jpg" class="card-img-top" alt="Asesoría de corte">
                         <div class="card-body">
                             <h5 class="card-title">Asesoría de Corte</h5>
@@ -209,7 +196,7 @@
                         <img src="/imagenes/decoloracion.jpg" class="card-img-top" alt="Servicio de decoloración">
                         <div class="card-body">
                             <h5 class="card-title">Servicio de Decoloración</h5>
-                            <p class="card-text">Decoloración y tintes personalizados para un estilo único.</p>
+                            <p class="card-text">Decoloraciones con técnicas modernas para un look atrevido.</p>
                         </div>
                     </div>
                 </div>
@@ -218,45 +205,43 @@
                         <img src="/imagenes/ondulacion.jpg" class="card-img-top" alt="Servicio de ondulación">
                         <div class="card-body">
                             <h5 class="card-title">Servicio de Ondulación</h5>
-                            <p class="card-text">Ondulación del cabello con técnicas avanzadas.</p>
+                            <p class="card-text">Ondas y rizos que añaden volumen y textura a tu cabello.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
-                        <img src="/imagenes/servicioadomicilio.jpg" class="card-img-top" alt="Servicio a Domicilio">
+                        <img src="/imagenes/servicioadomicilio.jpg" class="card-img-top" alt="Servicio a domicilio">
                         <div class="card-body">
                             <h5 class="card-title">Servicio a Domicilio</h5>
-                            <p class="card-text">Disfruta de nuestros servicios desde la comodidad de tu hogar.</p>
+                            <p class="card-text">Llevamos el servicio hasta tu puerta con la mejor calidad.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
     </div>
-    </div>
-    <footer class="footer text-center">
+
+    <footer class="text-center text-white py-4">
         <div class="container">
-            <p>© 2024 ERIK Barber-Studio. Todos los derechos reservados.</p>
-            <p>
-                <a href="https://www.facebook.com/erikbarberstudio" class="text-white"><i class="fab fa-facebook"></i> Facebook</a> | 
-                <a href="#" class="text-white"><i class="fab fa-instagram"></i> Instagram</a>
-            </p>
-            <p>Dirección: Av. Girasoles 848, Amarilis 10003 | Teléfono: <a href="https://wa.me/967463961" class="text-white">967463961</a></p>
-            <p>Desarrollado por Edward JR | Contacto: <a href="https://wa.me/921540347" class="text-white">921540347</a></p>
+            <p>&copy; 2024 ERIK Barber-Studio. Todos los derechos reservados.</p>
         </div>
     </footer>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        $(window).scroll(function() {
-            if ($(this).scrollTop() > 50) {
-                $('.navbar').addClass('scrolled');
-            } else {
-                $('.navbar').removeClass('scrolled');
-            }
+        $(document).ready(function() {
+            // Cambia el color de fondo de la navbar al desplazarse
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 50) {
+                    $('.navbar').addClass('scrolled');
+                } else {
+                    $('.navbar').removeClass('scrolled');
+                }
+            });
         });
     </script>
 </body>
-</html> 
+</html>
