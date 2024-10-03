@@ -168,7 +168,7 @@ h1 {
 
         @media (max-width: 576px) {
             .welcome-text {
-                font-size: 1rem; /* Tamaño de fuente en móviles */
+                font-size: 2rem; /* Tamaño de fuente en móviles */
             }
         }
     </style>
@@ -203,12 +203,13 @@ h1 {
     </nav>
 
     <header class="hero">
-        <h3 class="welcome-text">BIENVENIDO A ERIK BARBER-STUDIO</h3>
+        <h2 class="welcome-text">BIENVENIDO A ERIK BARBER-STUDIO</h2>
         <p class="lead">Tu estilo, nuestra pasión</p>
     </header>
-
     <div class="container mt-5 pt-5">
         <div class="text-center my-4">
+            <H2>CONTACTANOS EN NUESTRAS REDES SOCIALES</H2>
+
             <a href="https://wa.me/967463961" target="_blank" class="btn btn-success mr-2">
                 <i class="fab fa-whatsapp"></i> WhatsApp
             </a>
@@ -218,11 +219,11 @@ h1 {
 
         </div>
         <div class="form-container">
-            <h1>Consultar Citas</h1>
+            <h1>CONSULTAR CITAS</h1>
             <form action="{{ route('crearCitasEnBlanco') }}" method="POST">
                 @csrf
                 <div class="mb-3">
-                    <label for="fecha" class="form-label">Seleccione la fecha para su reserva:</label>
+                    <label for="fecha" class="form-label text-center w-100">SELECCIONE LA FECHA PARA CREAR LA CITA</label>
                     <input type="date" id="fecha" name="fecha" class="form-control" required
                         min="{{ date('Y-m-d') }}"
                         max="{{ date('Y-m-d', strtotime('+7 days')) }}">
@@ -311,7 +312,23 @@ h1 {
                         <input type="text" id="estado" name="estado" class="form-control" value="pendiente" readonly>
                     </div>
                     <div class="mb-3 text-center">
-                        <img src="/imagenes/yape.jpg" alt="QR Yape" class="img-fluid mb-2" style="max-width: 100%; height: auto;">
+                        <label for="yape" class="form-label text-center w-100">NÚMERO DE YAPE</label>
+                        <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+                            <h1 id="numeroYape" style="margin-right: 10px; cursor: pointer;">967463961</h1>
+                            <i class="fas fa-copy" style="cursor: pointer; color: #007bff; font-size: 24px;" onclick="copiarAlPortapapeles()"></i>
+                        </div>
+                        
+                        <script>
+                        function copiarAlPortapapeles() {
+                            var texto = document.getElementById("numeroYape").innerText;
+                            navigator.clipboard.writeText(texto).then(function() {
+                                alert("Número de Yape copiado: " + texto);
+                            }, function(err) {
+                                console.error("Error al copiar: ", err);
+                            });
+                        }
+                        </script>
+                                                <img src="/imagenes/yape.jpg" alt="QR Yape" class="img-fluid mb-2" style="max-width: 100%; height: auto;">
                     </div>
                     <button type="submit" class="btn btn-success">Reservar Cita</button>
                 </form>
